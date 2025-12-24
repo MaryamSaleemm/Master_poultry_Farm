@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Master Poultry | HR Admin</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'hr_dashboard' %}" class="nav-link">Home</a>
+      </li>
+    </ul>
+  </nav>
+
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="{% url 'hr_dashboard' %}" class="brand-link">
+      <span class="brand-text font-weight-light">Master Poultry HR</span>
+    </a>
+
+    <div class="sidebar">
+      
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          
+          <li class="nav-item">
+            <a href="{% url 'hr_dashboard' %}" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+
+          <li class="nav-header">APPLICATIONS</li>
+          
+          <li class="nav-item"> 
+            <a href="#" class="nav-link bg-primary"> 
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                HR Management
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Core Info</li>
+              <li class="nav-item"><a href="{% url 'employee_basic_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Basic Info</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_contact_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Contacts</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_access_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Access</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Career</li>
+              <li class="nav-item"><a href="{% url 'employee_job_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Jobs</p></a></li>
+              <li class="nav-item"><a href="{% url 'promotions_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Promotions</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_history_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>History Logs</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_termination_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Terminations</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Finance</li>
+              <li class="nav-item"><a href="{% url 'employee_payroll_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Payroll</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_bank_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Bank Accounts</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_tax_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Tax Info</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_insurance_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Insurance</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Operations</li>
+              <li class="nav-item"><a href="{% url 'employee_attendance_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Attendance</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_leave_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Leave Requests</p></a></li>
+              <li class="nav-item"><a href="{% url 'employee_performance_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Performance</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Training</li>
+              <li class="nav-item"><a href="{% url 'training_programs_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Programs</p></a></li>
+              <li class="nav-item"><a href="{% url 'training_records_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Records</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Settings</li>
+              <li class="nav-item"><a href="{% url 'branches_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Branches</p></a></li>
+              <li class="nav-item"><a href="{% url 'address_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Addresses</p></a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link bg-success"> 
+              <i class="nav-icon fas fa-tractor"></i>
+              <p>
+                Farm Infrastructure
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">General Info</li>
+              <li class="nav-item"><a href="{% url 'farm_basic_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Farm Profiles</p></a></li>
+              <li class="nav-item"><a href="{% url 'farm_location_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Locations</p></a></li>
+              <li class="nav-item"><a href="{% url 'farm_ownership_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Ownership</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Housing</li>
+              <li class="nav-item"><a href="{% url 'farm_houses_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Sheds & Houses</p></a></li>
+              <li class="nav-item"><a href="{% url 'farm_specs_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>House Specs</p></a></li>
+              <li class="nav-item"><a href="{% url 'farm_utilities_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Utilities</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Maintenance</li>
+              <li class="nav-item"><a href="{% url 'farm_construction_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Construction</p></a></li>
+              <li class="nav-item"><a href="{% url 'farm_audits_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Audits</p></a></li>
+            </ul>
+          </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link bg-warning"> 
+             <i class="nav-icon" style="font-style: normal; font-size: 1.2rem; color: transparent; text-shadow: 0 0 0 #c2c7d0;">🐔</i>
+                Poultry Operations
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Flock Mgt</li>
+              <li class="nav-item">
+                  <a href="{% url 'poultry_breeds_list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i><p>Breeds</p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="{% url 'poultry_batches_list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i><p>Batches</p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="{% url 'poultry_mortality_list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i><p>Mortality Logs</p>
+                  </a>
+              </li>
+              
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Health</li>
+              <li class="nav-item">
+                  <a href="{% url 'poultry_vaccines_list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i><p>Vaccines</p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="{% url 'poultry_vaccinerecords_list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i><p>Vaccine Logs</p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="{% url 'poultry_vet_list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i><p>Vet Visits</p>
+                  </a>
+              </li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Production</li>
+              <li class="nav-item">
+                  <a href="{% url 'poultry_eggs_list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i><p>Egg Collection</p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="{% url 'poultry_tasks_list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i><p>Daily Tasks</p>
+                  </a>
+              </li>
+            </ul>
+          </li>  
+        <li class="nav-item">
+            <a href="#" class="nav-link bg-info"> 
+              <i class="nav-icon fas fa-building"></i>
+              <p>
+                Assets & Buildings
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Ownership</li>
+              <li class="nav-item"><a href="{% url 'assets_owners_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Owners</p></a></li>
+              <li class="nav-item"><a href="{% url 'assets_owner-contacts_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Contacts</p></a></li>
+              <li class="nav-item"><a href="{% url 'assets_owner-address_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Addresses</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Buildings</li>
+              <li class="nav-item"><a href="{% url 'assets_buildings_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Building Profiles</p></a></li>
+              <li class="nav-item"><a href="{% url 'assets_locations_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Locations</p></a></li>
+              <li class="nav-item"><a href="{% url 'assets_specs_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Specifications</p></a></li>
+              <li class="nav-item"><a href="{% url 'assets_facilities_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Facilities</p></a></li>
+              <li class="nav-item"><a href="{% url 'assets_management_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Management</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Compliance</li>
+              <li class="nav-item"><a href="{% url 'assets_permits_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Permits</p></a></li>
+              <li class="nav-item"><a href="{% url 'assets_licenses_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Licenses</p></a></li>
+              <li class="nav-item"><a href="{% url 'assets_inspections_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Inspections</p></a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link bg-indigo"> 
+              <i class="nav-icon fas fa-chart-line"></i>
+              <p>
+                Supply & Finance
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Feed Mgt</li>
+              <li class="nav-item"><a href="{% url 'finance_feed_types_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Feed Types</p></a></li>
+              <li class="nav-item"><a href="{% url 'finance_feed_suppliers_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Suppliers</p></a></li>
+              <li class="nav-item"><a href="{% url 'finance_feed_purchases_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Purchases</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Sales</li>
+              <li class="nav-item"><a href="{% url 'finance_customers_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Customers</p></a></li>
+              <li class="nav-item"><a href="{% url 'finance_sales_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Sales Records</p></a></li>
+
+              <li class="nav-header ml-2 text-muted text-uppercase" style="font-size: 0.8rem;">Expenses</li>
+              <li class="nav-item"><a href="{% url 'finance_expense_categories_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Categories</p></a></li>
+              <li class="nav-item"><a href="{% url 'finance_farm_expenses_list' %}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Expense Logs</p></a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      </div>
+    </aside>
+
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+      </div>
+    </section>
+  </div>
+
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2025 Master Poultry Farm.</strong>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+</body>
+</html>

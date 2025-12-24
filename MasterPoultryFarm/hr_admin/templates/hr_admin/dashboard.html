@@ -1,0 +1,119 @@
+{% extends 'hr_admin/base.html' %}
+{% load humanize %} 
+
+{% block page_title %} Executive Dashboard {% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <h5 class="mb-2 mt-4">Financial Overview</h5>
+  <div class="row">
+    <div class="col-lg-4 col-6">
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3>${{ total_sales|intcomma }}</h3>
+          <p>Total Revenue</p>
+        </div>
+        <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+        <a href="{% url 'finance_sales_list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-6">
+      <div class="small-box bg-danger">
+        <div class="inner">
+          <h3>${{ total_expenses|intcomma }}</h3>
+          <p>Total Expenses</p>
+        </div>
+        <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+        <a href="{% url 'finance_farm_expenses_list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-12">
+      <div class="small-box bg-indigo">
+        <div class="inner">
+          <h3>${{ net_profit|intcomma }}</h3>
+          <p>Net Profit</p>
+        </div>
+        <div class="icon"><i class="fas fa-chart-line"></i></div>
+        <a href="#" class="small-box-footer">Analysis <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <h5 class="mb-2 mt-4">Operational Metrics</h5>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box mb-3">
+        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-users"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Total Staff</span>
+          <span class="info-box-number">{{ total_employees }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box mb-3">
+      <span class="info-box-icon bg-warning elevation-1">
+    <span style="font-size: 2.5rem; color: transparent; text-shadow: 0 0 0 #343a40;">🐔</span>
+</span>
+        <div class="info-box-content">
+          <span class="info-box-text">Active Batches</span>
+          <span class="info-box-number">{{ active_batches }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box mb-3">
+        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-egg"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Eggs Collected</span>
+          <span class="info-box-number">{{ total_eggs|intcomma }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box mb-3">
+        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-warehouse"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Poultry Houses</span>
+          <span class="info-box-number">{{ total_houses }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h5 class="mb-2 mt-4">Infrastructure Status</h5>
+  <div class="row">
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-light">
+        <div class="inner"><h3>{{ total_farms }}</h3><p>Farms</p></div>
+        <div class="icon"><i class="fas fa-tractor text-success"></i></div>
+        <a href="{% url 'farm_basic_list' %}" class="small-box-footer">View <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-light">
+        <div class="inner"><h3>{{ total_buildings }}</h3><p>Buildings</p></div>
+        <div class="icon"><i class="fas fa-building text-info"></i></div>
+        <a href="{% url 'assets_buildings_list' %}" class="small-box-footer">View <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-light">
+        <div class="inner"><h3>{{ total_owners }}</h3><p>Owners</p></div>
+        <div class="icon"><i class="fas fa-user-tie text-muted"></i></div>
+        <a href="{% url 'assets_owners_list' %}" class="small-box-footer">View <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-light">
+        <div class="inner"><h3>{{ active_projects }}</h3><p>Projects</p></div>
+        <div class="icon"><i class="fas fa-hard-hat text-warning"></i></div>
+        <a href="{% url 'farm_construction_list' %}" class="small-box-footer">View <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

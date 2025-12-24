@@ -1,0 +1,31 @@
+"""
+URL configuration for MasterPoultryFarm project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import include, path
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('hr_admin.urls')),        # Your HR App
+    path('farm/', include('farm_infra.urls')), # Your New Farm App
+    path('ops/', include('poultry_ops.urls')),
+    path('assets/', include('assets.urls')),
+    path('finance/', include('supply_finance.urls')),
+    path('api/', include('farm_infra.urls')),
+    path('api/', include('poultry_ops.urls')),
+    path('api/', include('assets.urls')),
+    path('api/', include('supply_finance.urls')),
+    
+]

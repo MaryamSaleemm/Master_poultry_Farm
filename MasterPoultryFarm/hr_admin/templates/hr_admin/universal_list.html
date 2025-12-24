@@ -1,0 +1,54 @@
+{% extends 'hr_admin/base.html' %}
+{% block page_title %}{{ verbose_name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">{{ verbose_name }} List</h3>
+    <div class="card-tools">
+      <a href="{{ add_url }}" class="btn btn-primary btn-sm">
+        <i class="fas fa-plus"></i> Add New
+      </a>
+    </div>
+  </div>
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover text-nowrap">
+        <thead>
+            <tr>
+                {% for field in fields %}
+                    <th style="text-transform: capitalize;">{{ field }}</th>
+                {% endfor %}
+                <th>Actions</th>
+            </tr>
+        </thead>
+       <tbody>
+            {% for object in object_list %}
+            <tr>
+                <td>{{ object }}</td>
+                {% for field in fields|slice:"1:" %} 
+                   {% endfor %}
+                
+                <td class="project-actions">
+                    {% if update_url_name == 'universal_edit' %}
+                        <a class="btn btn-info btn-sm" href="{% url 'universal_edit' model_name object.pk %}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'universal_delete' model_name object.pk %}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    {% else %}
+                        <a class="btn btn-info btn-sm" href="{% url update_url_name object.pk %}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{% url delete_url_name object.pk %}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody> 
+    </table>
+  </div>
+</div>
+{% endblock %}
