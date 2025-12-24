@@ -1,0 +1,19 @@
+# --- Python/Django ---
+venv/
+__pycache__/
+*.py[cod]
+db.sqlite3
+
+# --- Flutter/Dart ---
+build/
+.dart_tool/
+android/
+ios/
+windows/
+linux/
+macos/
+
+# --- IDEs ---
+.idea/
+.vscode/
+*.iml
