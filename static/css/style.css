@@ -1,0 +1,92 @@
+/* static/css/style.css */
+
+/* 1. BRAND FONTS & COLORS */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap');
+
+:root {
+    --primary-gold: #D4AF37; /* Premium Gold */
+    --dark-green: #1B4D3E;   /* Deep Agriculture Green */
+    --rich-black: #1a1a1a;
+    --off-white: #f8f9fa;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: var(--off-white);
+}
+
+h1, h2, h3, .navbar-brand {
+    font-family: 'Playfair Display', serif; /* Elegant headings */
+}
+
+/* 2. PREMIUM NAVBAR */
+.navbar {
+    background-color: var(--rich-black) !important;
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    color: var(--primary-gold) !important;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.8) !important;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--primary-gold) !important;
+}
+
+/* 3. CINEMATIC HERO SECTION */
+.hero-section {
+    position: relative;
+    /* Dark overlay so text pops */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1544248437-0205f2c41935?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 90vh; /* Full screen height */
+    display: flex;
+    align-items: center;
+    border-bottom: 5px solid var(--primary-gold);
+}
+
+.hero-title {
+    font-size: 4rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    animation: fadeInDown 1s ease-out;
+}
+
+/* 4. MODERN CARDS (Glass Effect) */
+.stat-card {
+    background: white;
+    border: none;
+    border-radius: 0;
+    border-left: 4px solid var(--primary-gold);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px); /* Lifts up on hover */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+/* 5. FOOTER */
+footer {
+    background-color: var(--rich-black);
+    border-top: 3px solid var(--primary-gold);
+}
+
+/* Animation Keyframes */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

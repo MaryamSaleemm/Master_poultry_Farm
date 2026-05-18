@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Master Control{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    /* Compact Dashboard Grid */
+    .dashboard-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+        gap: 20px; 
+        padding: 20px 0; 
+    }
+    
+    .card { 
+        background: white; 
+        padding: 20px; 
+        border-radius: 12px; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        border-top: 5px solid #4CAF50; 
+        display: flex; 
+        flex-direction: column; 
+    }
+    
+    .card h2 { 
+        margin-top: 0; 
+        color: #2c3e50; 
+        font-size: 1.4rem; 
+        border-bottom: 1px solid #eee; 
+        padding-bottom: 10px; 
+    }
+    
+    /* Form Elements */
+    label { 
+        display: block; 
+        margin-top: 10px; 
+        font-weight: 600; 
+        color: #555; 
+        font-size: 0.9rem; 
+    }
+    
+    input, select { 
+        width: 100%; 
+        padding: 10px; 
+        margin-top: 5px; 
+        border: 1px solid #ddd; 
+        border-radius: 6px; 
+        box-sizing: border-box; 
+    }
+    
+    button { 
+        margin-top: 20px; 
+        width: 100%; 
+        padding: 12px; 
+        background: #2c3e50; 
+        color: white; 
+        border: none; 
+        border-radius: 6px; 
+        cursor: pointer; 
+        transition: background 0.3s; 
+        font-size: 1rem;
+    }
+    button:hover { background: #34495e; }
+    
+    /* Result Box Styling */
+    .result-box { 
+        margin-top: 15px; 
+        padding: 12px; 
+        border-radius: 6px; 
+        text-align: center; 
+        font-weight: bold; 
+        font-size: 1.1rem; 
+        min-height: 20px; 
+    }
+    .success { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+    .error { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+    .loading { color: #666; font-style: italic; }
+
+    /* Graph Container */
+    .chart-container {
+        position: relative;
+        height: 200px;
+        width: 100%;
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+    }
+</style>
+
+<h1 style="text-align: center; color: #333;">Predictions & Analytics</h1>
+
+<div class="dashboard-grid">
+
+    <div class="card">
+        <h2>🥚 Egg Yield Predictor</h2>
+        <form id="egg-form" data-url="{% url 'predict_eggs_api' %}">
+            {% csrf_token %}
+            <label>Feed Quantity (kg)</label>
+            <input type="number" name="feed_kg" value="12" required step="0.1">
+
+            <label>Temperature (°C)</label>
+            <input type="number" name="temp_c" value="29" required>
+
+            <label>Humidity (%)</label>
+            <input type="number" name="humidity" value="65" required>
+
+            <button type="submit">Predict Yield</button>
+            <div id="egg-result" class="result-box"></div>
+        </form>
+        
+        <div class="chart-container">
+            <canvas id="eggChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card" style="border-top-color: #ff9800;">
+        <h2>🌽 Feed Optimizer</h2>
+        <form id="feed-form" data-url="{% url 'predict_feed_api' %}">
+            {% csrf_token %}
+            
+            <label>Feed Type</label>
+            <select name="feed_type">
+                <option value="Starter">Starter</option>
+                <option value="Grower">Grower</option>
+                <option value="Layer">Layer</option>
+            </select>
+
+            <label>Blend Formula</label>
+            <select name="blend_formula">
+                <option value="Standard">Standard Mix</option>
+                <option value="HighPro">High Protein</option>
+                <option value="Organic">Organic Mix</option>
+            </select>
+
+            <label>Avg House Temp (°C)</label>
+            <input type="number" name="avg_temp" value="25" required>
+
+            <label>Season</label>
+            <select name="season">
+                <option value="Spring">Spring</option>
+                <option value="Summer">Summer</option>
+                <option value="Autumn">Autumn</option>
+                <option value="Winter">Winter</option>
+            </select>
+
+            <button type="submit">Calculate Feed</button>
+            <div id="feed-result" class="result-box"></div>
+        </form>
+
+        <div class="chart-container">
+            <canvas id="feedChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card" style="border-top-color: #2196F3;">
+        <h2>🌡️ Environmental Risk</h2>
+        <form id="env-form" data-url="{% url 'monitor_env_api' %}">
+            {% csrf_token %}
+            <label>Sensor ID</label>
+            <input type="text" name="sensor_id" value="S-101" required>
+
+            <label>Temperature (°C)</label>
+            <input type="number" name="temp_c" value="32" required>
+
+            <label>Humidity (%)</label>
+            <input type="number" name="humidity_pct" value="80" required>
+
+            <button type="submit">Analyze Risk</button>
+            <div id="env-result" class="result-box"></div>
+        </form>
+
+        <div class="chart-container">
+            <canvas id="envChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script>
+ 
+    const commonOptions = { responsive: true, maintainAspectRatio: false };
+
+    // Egg Chart
+    const eggChart = new Chart(document.getElementById('eggChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+            datasets: [{
+                label: 'Projected Yield (Eggs)',
+                data: [0, 0, 0, 0, 0], 
+                borderColor: '#4CAF50',
+                backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: commonOptions
+    });
+
+    // Feed Chart
+    const feedChart = new Chart(document.getElementById('feedChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Current', 'Recommended', 'Limit'],
+            datasets: [{
+                label: 'Feed (kg)',
+                data: [0, 0, 0],
+                backgroundColor: ['#ffcc80', '#ff9800', '#e65100']
+            }]
+        },
+        options: commonOptions
+    });
+
+    // Env Chart
+    const envChart = new Chart(document.getElementById('envChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Safe', 'Warning', 'Critical'],
+            datasets: [{
+                data: [100, 0, 0],
+                backgroundColor: ['#2196F3', '#FFC107', '#F44336']
+            }]
+        },
+        options: commonOptions
+    });
+
+    // Handle Predictions 
+    const handlePrediction = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const resultBox = form.querySelector('.result-box');
+        const formId = form.id;
+
+        resultBox.className = 'result-box loading';
+        resultBox.innerHTML = 'Analyzing...';
+
+        fetch(form.getAttribute('data-url'), {
+            method: 'POST',
+            body: new FormData(form)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                resultBox.className = 'result-box success';
+                
+                // Update Text Result
+                if(data.unit === 'eggs') resultBox.innerHTML = `Result: ${data.prediction} Eggs`;
+                else if(data.unit === 'kg') resultBox.innerHTML = `Result: ${data.prediction} kg`;
+                else if(data.unit === 'status') resultBox.innerHTML = `Result: ${data.prediction}`;
+
+                // Update Graphs Dynamically
+                if (formId === 'egg-form') {
+                    let val = parseFloat(data.prediction);
+                   
+                    eggChart.data.datasets[0].data = [val-10, val-5, val, val+5, val+8];
+                    eggChart.update();
+                } 
+                else if (formId === 'feed-form') {
+                    let val = parseFloat(data.prediction);
+                    feedChart.data.datasets[0].data = [val * 1.1, val, val * 1.25];
+                    feedChart.update();
+                }
+                else if (formId === 'env-form') {
+                    let status = data.prediction;
+                    if(status === 'Critical') {
+                        envChart.data.datasets[0].data = [0, 0, 100];
+                        envChart.data.datasets[0].backgroundColor = ['#eee', '#eee', '#F44336'];
+                    } else if(status === 'Warning') {
+                        envChart.data.datasets[0].data = [0, 100, 0];
+                        envChart.data.datasets[0].backgroundColor = ['#eee', '#FFC107', '#eee'];
+                    } else {
+                        envChart.data.datasets[0].data = [100, 0, 0];
+                        envChart.data.datasets[0].backgroundColor = ['#2196F3', '#eee', '#eee'];
+                    }
+                    envChart.update();
+                }
+
+            } else {
+                throw new Error(data.message);
+            }
+        })
+        .catch(err => {
+            resultBox.className = 'result-box error';
+            resultBox.innerHTML = `Error: ${err.message}`;
+        });
+    };
+
+    document.querySelectorAll('form').forEach(form => form.addEventListener('submit', handlePrediction));
+</script>
+{% endblock %}

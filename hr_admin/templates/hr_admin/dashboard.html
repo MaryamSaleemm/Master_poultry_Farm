@@ -1,0 +1,273 @@
+{% extends 'hr_admin/base.html' %}
+{% load humanize %}
+
+{% block page_title %} Dashboard {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<style>
+
+  #calendar_datepicker, .ui-datepicker { width: 100% !important; background: transparent !important; border: none !important; font-family: 'Source Sans Pro', sans-serif; color: #ffffff !important; padding: 0; }
+  .ui-datepicker-header { background: transparent !important; border: none !important; color: #ffffff !important; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.3) !important; }
+  .ui-datepicker-title { font-size: 1.2rem; font-weight: 400; }
+  .ui-datepicker-prev, .ui-datepicker-next { cursor: pointer; background: rgba(0,0,0,0.1) !important; border-radius: 4px; border: none !important; top: 10px !important; width: 30px; height: 30px; }
+  .ui-datepicker-prev:hover, .ui-datepicker-next:hover { background: rgba(0,0,0,0.3) !important; }
+  .ui-datepicker-prev span, .ui-datepicker-next span { filter: invert(1) brightness(200%); margin-top: -8px !important; margin-left: -8px !important; }
+  .ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year { background: rgba(255,255,255,0.2); color: #fff; border: none; border-radius: 3px; padding: 2px; width: 40%; margin: 0 2px; }
+  .ui-datepicker select option { color: #333; background: #fff; }
+  .ui-datepicker-calendar { margin-top: 10px; width: 100%; }
+  .ui-datepicker th { color: rgba(255,255,255,0.7); font-weight: normal; padding: 10px 0; }
+  .ui-state-default { background: transparent !important; border: none !important; color: #ffffff !important; text-align: center; font-weight: bold; width: 36px; height: 36px; line-height: 36px; margin: 0 auto; }
+  .ui-state-hover { background: rgba(255,255,255,0.15) !important; border-radius: 50%; color: white !important; }
+  
+
+  .ui-datepicker-current-day .ui-state-active { background: rgba(255,255,255,0.3) !important; color: #ffffff !important; border-radius: 4px; position: relative; }
+  .ui-datepicker-current-day .ui-state-active::after { content: ""; position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-left: 7px solid transparent; border-bottom: 7px solid #ffffff; border-bottom-right-radius: 2px; }
+  
+  .ui-state-highlight { color: #fff !important; border: 1px solid rgba(255,255,255,0.5) !important; border-radius: 50%; }
+
+  .done-text { text-decoration: line-through; color: #adb5bd; }
+  .todo-list li { border-bottom: 1px solid #f4f4f4; padding: 10px; }
+  .todo-list li:last-child { border-bottom: none; }
+</style>
+
+<div class="container-fluid">
+
+  <h5 class="mb-2 mt-4">Financial Overview</h5>
+  <div class="row">
+    <div class="col-lg-4 col-6">
+      <div class="small-box bg-success">
+        <div class="inner"><h3>${{ total_sales|intcomma|default:"0" }}</h3><p>Total Revenue</p></div>
+        <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+        <a href="{% url 'finance_sales_list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-4 col-6">
+      <div class="small-box bg-danger">
+        <div class="inner"><h3>${{ total_expenses|intcomma|default:"0" }}</h3><p>Total Expenses</p></div>
+        <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+        <a href="{% url 'finance_farm_expenses_list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-4 col-12">
+      <div class="small-box bg-indigo">
+        <div class="inner"><h3>${{ net_profit|intcomma|default:"0" }}</h3><p>Net Profit</p></div>
+        <div class="icon"><i class="fas fa-chart-line"></i></div>
+<a href="{% url 'finance_sales_list' %}" class="small-box-footer">Analysis <i class="fas fa-arrow-circle-right"></i></a>      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+        <div class="card card-primary card-outline">
+            <div class="card-header"><h3 class="card-title">Financial Trend (Last 6 Months)</h3></div>
+            <div class="card-body">
+                <canvas id="financialChart" style="min-height: 250px; height: 250px;"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card card-warning card-outline">
+            <div class="card-header"><h3 class="card-title">Operational Costs Breakdown</h3></div>
+            <div class="card-body">
+                <canvas id="infraChart" style="min-height: 250px; height: 250px;"></canvas>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <h5 class="mb-2 mt-4">Operational Metrics</h5>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box mb-3">
+        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-users"></i></span>
+        <div class="info-box-content"><span class="info-box-text">Total Staff</span><span class="info-box-number">{{ total_employees|default:"0" }}</span></div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-success elevation-1"><i class="fas fa-egg"></i></span>
+          <div class="info-box-content"><span class="info-box-text">Eggs Collected</span><span class="info-box-number">{{ total_eggs|intcomma|default:"0" }}</span></div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-layer-group"></i></span>
+          <div class="info-box-content"><span class="info-box-text">Active Batches</span><span class="info-box-number">{{ active_batches|default:"0" }}</span></div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-info elevation-1"><i class="fas fa-warehouse"></i></span>
+          <div class="info-box-content"><span class="info-box-text">Poultry Houses</span><span class="info-box-number">{{ total_houses|default:"0" }}</span></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <section class="col-lg-7" id="todo-section">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="ion ion-clipboard mr-1"></i> To Do List</h3>
+        </div>
+        <div class="card-body">
+          <ul class="todo-list" id="todoListContainer">
+            {% for item in todo_list %}
+            <li>
+              <div class="icheck-primary d-inline ml-2">
+                <input type="checkbox" id="todo_{{ item.id }}" {% if item.is_done %}checked{% endif %} onchange="toggleTodo({{ item.id }})">
+                <label for="todo_{{ item.id }}"></label>
+              </div>
+              <span class="text {% if item.is_done %}done-text{% endif %}" id="text_{{ item.id }}">{{ item.title }}</span>
+              <div class="tools">
+                <i class="fas fa-trash-o" onclick="deleteTodo({{ item.id }}, this)" style="cursor: pointer;"></i>
+              </div>
+            </li>
+            {% empty %}
+            <li class="text-center text-muted p-3">No tasks found.</li>
+            {% endfor %}
+          </ul>
+        </div>
+        
+        <div class="card-footer clearfix">
+            <ul class="pagination pagination-sm m-0 float-left">
+                {% if todo_list.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ todo_list.previous_page_number }}">&laquo;</a></li>
+                {% endif %}
+                
+                {% for num in todo_list.paginator.page_range %}
+                    {% if todo_list.number == num %}
+                        <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                    {% elif num > todo_list.number|add:'-3' and num < todo_list.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if todo_list.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ todo_list.next_page_number }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+
+            <a href="{% url 'todo_create' %}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</a>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="col-lg-5">
+      <div class="card bg-gradient-success">
+        <div class="card-header border-0">
+          <h3 class="card-title">
+            <i class="far fa-calendar-alt"></i> Calendar
+          </h3>
+          <div class="card-tools">
+            <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body pt-0 pl-0 pr-0">
+          <div id="calendar_datepicker" style="padding: 10px;"></div>
+        </div>
+      </div>   
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+  
+    function getCookie(n){let c=null;if(document.cookie&&""!==document.cookie){let e=document.cookie.split(";");for(let o=0;o<e.length;o++){let t=e[o].trim();if(t.substring(0,n.length+1)===n+"="){c=decodeURIComponent(t.substring(n.length+1));break}}}return c}const csrftoken=getCookie("csrftoken");
+
+    function deleteTodo(id, element) {
+        if(confirm("Delete this task?")) {
+            $(element).closest('li').fadeOut(300, function() { $(this).remove(); });
+            fetch("{% url 'delete_todo' %}", { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken }, body: JSON.stringify({'id': id}) });
+        }
+    }
+
+    function toggleTodo(id) {
+        var span = document.getElementById("text_" + id);
+        if(span) span.classList.toggle("done-text");
+        fetch("{% url 'toggle_todo' %}", { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken }, body: JSON.stringify({'id': id}) });
+    }
+
+    $(document).ready(function() {
+        try {
+            $("#calendar_datepicker").datepicker({
+                inline: true,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "2020:2030",
+                dayNamesMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                showOtherMonths: true,
+                firstDay: 1
+            });
+        } catch(e) { console.error("Calendar Error:", e); }
+
+        try {
+            // LINE CHART
+            var ctxFinance = document.getElementById('financialChart').getContext('2d');
+            new Chart(ctxFinance, {
+                type: 'line', 
+                data: {
+                    labels: {{ chart_labels|safe|default:"[]" }}, 
+                    datasets: [
+                        {
+                            label: 'Revenue',
+                            data: {{ sales_data|safe|default:"[]" }},
+                            borderColor: '#28a745', 
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Expenses',
+                            data: {{ expense_data|safe|default:"[]" }},
+                            borderColor: '#dc3545',
+                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: { 
+                    maintainAspectRatio: false, 
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { position: 'top' } }
+                }
+            });
+
+            // DOUGHNUT CHART
+            var ctxInfra = document.getElementById('infraChart').getContext('2d');
+            new Chart(ctxInfra, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ breakdown_labels|safe|default:"[]" }},
+                    datasets: [{
+                        data: {{ breakdown_data|safe|default:"[]" }},
+                        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+                    }]
+                },
+                options: { 
+                    maintainAspectRatio: false, 
+                    responsive: true, 
+                    plugins: { legend: { position: 'right' } } 
+                }
+            });
+        } catch(e) { console.error(e); }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'public_base.html' %}
+{% block content %}
+<section class="position-relative text-white text-center" style="height: 85vh;">
+    <img src="https://images.unsplash.com/photo-1563207034-734d47b194db?auto=format&fit=crop&w=1920&q=80" 
+         class="img-cover position-absolute top-0 start-0 w-100 h-100" alt="Poultry Farm">
+    <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3">Fresh Eggs. Reliable Supply.</h1>
+            <p class="lead mb-4 fs-4">
+                We are a wholesale poultry operation in Chichawatni(Chak 176/9L), supplying fresh table eggs to traders across Pakistan.
+            </p>
+            <a href="{% url 'contact' %}" class="btn btn-warning btn-lg px-5 fw-bold">Check Daily Rates</a>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="bg-white p-4 shadow-sm h-100 border-top border-warning border-4">
+                    <h4 class="fw-bold">100,000 Birds</h4>
+                    <p class="text-muted">High-capacity production ensuring consistent supply.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="bg-white p-4 shadow-sm h-100 border-top border-warning border-4">
+                    <h4 class="fw-bold">Daily Freshness</h4>
+                    <p class="text-muted">Eggs collected, graded, and packed every morning.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="bg-white p-4 shadow-sm h-100 border-top border-warning border-4">
+                    <h4 class="fw-bold">Direct to Trader</h4>
+                    <p class="text-muted">Serving Rawalpindi, Lahore, Swat, and Multan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

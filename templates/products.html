@@ -1,0 +1,80 @@
+{% extends 'public_base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Our Products</h2>
+        <p class="text-muted">We provide Wholesale only.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+            <div class="card h-100 border-0 shadow-sm d-flex flex-column">
+                <img src="{% static 'images/egg.png' %}"
+                     class="card-img-top" alt="Fresh Eggs" style="height: 300px; object-fit: cover;">
+                
+                <div class="card-body p-4 d-flex flex-column">
+                    <h3 class="card-title fw-bold">Fresh Table Eggs</h3>
+                    <p class="card-text text-muted">White shell, yellow yolk. Collected daily.</p>
+
+                    {% if status.eggs_in_stock %}
+                        <div class="alert alert-warning text-center fw-bold mb-3">
+                            Today's Rate: Rs {{ status.current_tray_price }} / Tray
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger text-center fw-bold mb-3">
+                            SOLD OUT TODAY
+                        </div>
+                    {% endif %}
+
+                    <ul class="list-group list-group-flush mb-3 flex-grow-1">
+                        <li class="list-group-item"><strong>Packing:</strong> 30 Eggs per Tray</li>
+                        <li class="list-group-item"><strong>Box:</strong> 12 Trays (360 Eggs)</li>
+                        <li class="list-group-item"><strong>Weight:</strong> 58g - 65g avg</li>
+                    </ul>
+                    
+                    {% if status.eggs_in_stock %}
+                        <a href="{% url 'contact' %}" class="btn btn-dark w-100 mt-auto">Order Now</a>
+                    {% else %}
+                        <button class="btn btn-secondary w-100 mt-auto" disabled>Currently Unavailable</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 border-0 shadow-sm d-flex flex-column">
+                <img src="{% static 'images/hens.png' %}"
+                     class="card-img-top" alt="White Layer Hen" style="height: 300px; object-fit: cover;">
+                
+                <div class="card-body p-4 d-flex flex-column">
+                    <h3 class="card-title fw-bold">Cull Birds (Spent Hens)</h3>
+                    <p class="card-text text-muted">Available for meat markets at the end of the laying cycle.</p>
+                    
+                    {% if status.hens_in_stock %}
+                        <div class="alert alert-success text-center fw-bold mb-3">
+                            Now Available for Sale
+                        </div>
+                    {% else %}
+                        <div class="alert alert-secondary text-center fw-bold mb-3">
+                            Not Currently Selling
+                        </div>
+                    {% endif %}
+
+                    <ul class="list-group list-group-flush mb-3 flex-grow-1">
+                        <li class="list-group-item"><strong>Age:</strong> 1.5 to 2 Years Old</li>
+                        <li class="list-group-item"><strong>Weight:</strong> 1.75kg - 1.80kg (Approx)</li>
+                        <li class="list-group-item"><strong>Condition:</strong> Fully feathered, healthy cull</li>
+                    </ul>
+
+                    {% if status.hens_in_stock %}
+                        <a href="{% url 'contact' %}" class="btn btn-dark w-100 mt-auto">Check Availability</a>
+                    {% else %}
+                        <button class="btn btn-secondary w-100 mt-auto" disabled>Not Available</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

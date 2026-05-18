@@ -1,0 +1,78 @@
+{% extends 'public_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-light py-5">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">About Masters Poultry</h1>
+        <p class="lead text-muted">Since 1995.</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row align-items-center gx-5 mb-5">
+        
+        <div class="col-lg-5">
+            <h2 class="fw-bold mb-4">Our Story</h2>
+            <p class="text-muted mb-4">
+                Located in Punjab in <strong>Chichawatni (Chak 176/9L)</strong>, Masters Poultry Farm began with a simple mission: to provide the freshest, highest-quality table eggs to wholesalers across the region.
+            </p>
+            <p class="text-muted mb-4">
+                What started as a small flock has grown into a modern, semi-automated operation housing over <strong>100,000 birds</strong>. We understand the market's need for consistency. That is why our infrastructure is designed to ensure a steady daily supply, regardless of the season.
+            </p>
+            <p class="text-muted">
+                We are not just selling eggs; we are building long-term partnerships with traders in Rawalpindi, Lahore, and KPK.
+            </p>
+        </div>
+        
+        <div class="col-lg-7">
+            <div class="position-relative">
+                <img src="{% static 'images/about.png' %}"
+                     class="img-fluid rounded-3 shadow-lg" 
+                     style="width: 100%; height: 350px; object-fit: cover; object-position: bottom;"
+                     alt="Farm Owner Holding Fresh Eggs">
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5 opacity-25">
+
+    <div class="row text-center g-4">
+        <div class="col-12 mb-3">
+            <h2 class="fw-bold">Why Traders Choose Us</h2>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="p-4 border rounded-3 h-100 bg-white shadow-sm">
+                <i class="fas fa-handshake text-warning display-5 mb-3"></i>
+                <h4 class="fw-bold">Fair Dealing</h4>
+                <p class="text-muted mb-0">We believe in transparent pricing. Our daily rates are updated online every morning so you know exactly what you are paying.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4 border rounded-3 h-100 bg-white shadow-sm">
+                <i class="fas fa-truck text-warning display-5 mb-3"></i>
+                <h4 class="fw-bold">Consistent Supply</h4>
+                <p class="text-muted mb-0">Markets don't stop, and neither do we. Our rigorous flock management ensures we have eggs available year-round.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4 border rounded-3 h-100 bg-white shadow-sm">
+                <i class="fas fa-shield-alt text-warning display-5 mb-3"></i>
+                <h4 class="fw-bold">Bio-Security</h4>
+                <p class="text-muted mb-0">A healthy bird lays a healthy egg. We follow strict vaccination and hygiene protocols to ensure shell quality and safety.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-dark text-white rounded-3 p-5 mt-5 text-center position-relative overflow-hidden">
+        <div class="position-relative z-index-1">
+            <h2 class="fw-bold mb-3">Ready to Partner With Us?</h2>
+            <p class="lead mb-4 text-white-50">Check our daily rates or contact us directly for bulk orders.</p>
+            <a href="{% url 'contact' %}" class="btn btn-warning btn-lg fw-bold px-5">Contact Sales</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

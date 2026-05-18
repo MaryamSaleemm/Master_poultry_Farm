@@ -1,0 +1,65 @@
+{% extends 'auth_base.html' %}
+
+{% block content %}
+<div class="register-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="#" class="h1"><b>Master</b> <br><b>Poultry Farm</b></a>
+    </div>
+    <div class="card-body">
+
+      <form method="post">
+        {% csrf_token %}
+        
+        {% for field in form %}
+        <div class="form-group mb-3">
+            <label>{{ field.label }}</label>
+            
+            {{ field }}
+            
+            {% if field.errors %}
+                <div class="text-danger small mt-1">
+                    {{ field.errors.0 }}
+                </div>
+            {% endif %}
+            
+            </div>
+        {% endfor %}
+        
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+          </div>
+        </div>
+      </form>
+
+      <a href="{% url 'login' %}" class="text-center mt-3 d-block">Already have an account? <b>Login</b></a>
+    </div>
+  </div>
+</div>
+
+<style>
+    /* Input styling */
+    input[type="text"], input[type="password"], input[type="email"] {
+        display: block;
+        width: 100%;
+        height: calc(2.25rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    }
+    
+    /* Blue focus border when clicking inside inputs */
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+</style>
+{% endblock %}
