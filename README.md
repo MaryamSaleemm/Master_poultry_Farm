@@ -22,7 +22,7 @@ This system replaces legacy operational tracking by providing a secure administr
 <img width="1893" height="778" alt="image" src="https://github.com/user-attachments/assets/7a2dbfed-d38e-48ec-978a-7aac71774d8a" />
 <img width="1502" height="574" alt="image" src="https://github.com/user-attachments/assets/61d05089-2a0f-49a3-b1cf-90a13c8f4279" />
 <img width="1704" height="598" alt="image" src="https://github.com/user-attachments/assets/60fd0851-458e-4b0b-9075-ad8179c55339" />
-
+**Predictive AI Integration:**
 <img width="1346" height="742" alt="image" src="https://github.com/user-attachments/assets/e392ff2b-4e0e-4c3b-82c4-30e4843b1296" />
 
 ##  Tech Stack
